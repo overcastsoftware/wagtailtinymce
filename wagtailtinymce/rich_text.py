@@ -37,6 +37,7 @@ if WAGTAIL_VERSION >= '2.0':
     from wagtail.admin.edit_handlers import RichTextFieldPanel
     from wagtail.admin.rich_text.converters.editor_html import EditorHTMLConverter
     from wagtail.core.rich_text import features
+    from wagtail.core.rich_text import expand_db_html
 else:
     from wagtail.wagtailadmin.edit_handlers import RichTextFieldPanel
     from wagtail.wagtailcore.rich_text import DbWhitelister
@@ -90,10 +91,12 @@ class TinyMCERichTextArea(WidgetWithScript, widgets.Textarea):
         if value is None:
             translated_value = None
         else:
-            if WAGTAIL_VERSION >= '2.0':
-                translated_value = self.converter.from_database_format(value)
-            else:
-                translated_value = expand_db_html(value, for_editor=True)
+            # if WAGTAIL_VERSION >= '2.0':
+            #     translated_value = self.converter.from_database_format(value, for_editor=True)
+            # else:
+            #     print(self.converter)
+            
+            translated_value = expand_db_html(value)
         return super(TinyMCERichTextArea, self).render(name, translated_value, attrs)
 
     def render_js_init(self, id_, name, value):
@@ -127,3 +130,4 @@ class TinyMCERichTextArea(WidgetWithScript, widgets.Textarea):
             return self.converter.to_database_format(original_value)
         else:
             return DbWhitelister.clean(original_value)
+
