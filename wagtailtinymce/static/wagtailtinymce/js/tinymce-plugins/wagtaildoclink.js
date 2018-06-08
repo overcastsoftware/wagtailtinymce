@@ -36,7 +36,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         a = document.createElement('a');
         a.setAttribute('href', pageData.url);
         if (pageData.id) {
-            print(pageData);
+            console.log(pageData);
             a.setAttribute('data-id', pageData.id);
             a.setAttribute('data-linktype', 'document');
             text = currentText || pageData.title;
